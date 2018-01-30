@@ -117,9 +117,11 @@ public class Appt implements  Comparable<Appt>{
     	else
         	if(startMinute<0 || startMinute>59)
         		this.valid=false;
-        	else
+			/*                                              //appointments can be created for days that may not exist
+        	else                                         
             	if(startDay<1 || startDay>NumDaysInMonth)
             		this.valid=false;
+			*/
             	else
                 	if(startMonth<1 || startMonth>12)
                 		this.valid=false;
@@ -277,7 +279,7 @@ public class Appt implements  Comparable<Appt>{
      * @return a printable representation of this appointment
      */
     private String represntationApp(){
-        String half = (getStartHour() > 11) ? "pm" : "am";
+        String half = (getStartHour() > 12) ? "pm" : "am";
         int printableHour = getStartHour();
         if (printableHour > 11)
         {
