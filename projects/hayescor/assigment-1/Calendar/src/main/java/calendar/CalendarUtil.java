@@ -16,7 +16,7 @@ public class CalendarUtil {
 	public static int DaysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	
 	/** static var used for February **/
-	public static final int FEBRUARY = 1;
+	public static final int FEBRUARY = 2;
 
 	/** 
 	*	Get number of days in specified year and month
@@ -52,13 +52,16 @@ public class CalendarUtil {
 				return false;
 			}
 		}
-	
+		
 		//year is also leap year if multiple of 4
+		/*
 		if ((year % 4) == 0) {
 			return true;
 		}
 		else{
 			return false;
 		}
+		*/
+		return false;
 	}
 }
