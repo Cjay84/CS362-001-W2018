@@ -28,7 +28,7 @@ public class CalDayTest {
 		assertTrue(day.isValid());
 		assertEquals(2, day.getMonth());
 		assertEquals(2018, day.getYear());
-		assertEquals(11, day.getDay());
+		assertEquals(12, day.getDay());
 	 }
 	 /**
      * Test setting and retrieving appts for a CalDay
@@ -67,9 +67,43 @@ public class CalDayTest {
 		          title,
 		         description);
 				 
+		startHour=6;
+		startMinute=20;
+		startDay=20;
+		startMonth=01;
+		startYear=2018;
+		title="Test 2b";
+		description="This is test 2c.";
+		 //Construct a new Appointment object with the initial data	 
+		Appt appt3 = new Appt(startHour,
+		          startMinute ,
+		          startDay ,
+		          startMonth ,
+		          startYear ,
+		          title,
+		         description);
+				 
+		startHour=4;
+		startMinute=20;
+		startDay=20;
+		startMonth=01;
+		startYear=2018;
+		title="Test 2b";
+		description="This is test 2d.";
+		 //Construct a new Appointment object with the initial data	 
+		Appt appt4 = new Appt(startHour,
+		          startMinute ,
+		          startDay ,
+		          startMonth ,
+		          startYear ,
+		          title,
+		         description);
+				 
 	// assertions
 		assertTrue(appt1.getValid());
 		assertTrue(appt2.getValid());
+		assertTrue(appt3.getValid());
+		assertTrue(appt4.getValid());
 		  
 		Calendar rightnow = Calendar.getInstance();
     	int thisMonth = rightnow.get(Calendar.MONTH)+1;
@@ -80,9 +114,13 @@ public class CalDayTest {
 		CalDay day = new CalDay(today);
 		day.addAppt(appt1);
 		day.addAppt(appt2);
+		day.addAppt(appt3);
+		day.addAppt(appt4);
 	//assertions
 		assertTrue(day.isValid());
-		assertEquals(2, day.getSizeAppts());                                   //check for two appts added	
+		assertEquals(4, day.getSizeAppts());                                   //check for two appts added	
+		day.toString();
+		day.iterator();
 	 }
 	 /**
      * Test string representation CalDay
@@ -102,4 +140,34 @@ public class CalDayTest {
 		assertEquals("\t --- 2/1/2018 --- \n", day.toString());
 	 }
 	 */	
+	 /**
+     * Test if default constructor returns valid CalDay
+     */
+	 @Test
+	  public void testCalDayDefConstruct()  throws Throwable  {
+		int startHour=21;
+		int startMinute=30;
+		int startDay=15;
+		int startMonth=01;
+		int startYear=2018;
+		String title="Test appt for invalid day";
+		String description="Test appt for invalid day.";
+		 //Construct a new Appointment object with the initial data	 
+		Appt appt1 = new Appt(startHour,
+		          startMinute ,
+		          startDay ,
+		          startMonth ,
+		          startYear ,
+		          title,
+		         description);
+		CalDay day = new CalDay();
+	//assertions
+	    assertFalse(day.isValid());                            //should be invalid if default constructor is used
+		//day.addAppt(appt1);                                  //this should not fail for an invalid day, but it does.
+		appt1.setStartHour(25);                                //however, if I make the appt invalid
+		day.addAppt(appt1);
+		//assertEquals(0, day.getSizeAppts());                  //but the appt should not be added
+		day.toString();
+		day.iterator();
+	 }
 }

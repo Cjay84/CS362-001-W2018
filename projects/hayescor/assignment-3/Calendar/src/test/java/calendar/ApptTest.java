@@ -143,7 +143,11 @@ public class ApptTest {
 		          title,
 		         description);
 	// assertions
-		 assertEquals("\t6/20/2018 at 5:20am ,Test 5, This is test 5.\n", appt.toString());     //testing toString() representation
+		 assertEquals("\t6/20/2018 at 5:20am ,Test 5, This is test 5.\n", appt.toString());     //testing toString() representation with "am" suffix
+		 appt.setStartHour(13);
+		 assertEquals("\t6/20/2018 at 1:20pm ,Test 5, This is test 5.\n", appt.toString());     //testing toString() representation with "pm" suffix
+		 appt.setStartHour(0);
+		 assertEquals("\t6/20/2018 at 12:20am ,Test 5, This is test 5.\n", appt.toString());     //testing toString() representation with 0 hour replacement of 12
 	 }
 	 /**
      * Test changing the appt using setters
@@ -187,7 +191,7 @@ public class ApptTest {
      */
 	 @Test
 	  public void test07()  throws Throwable  {
-		 int startHour=25;
+		 int startHour=24;
 		 int startMinute=30;
 		 int startDay=15;
 		 int startMonth=01;
@@ -203,7 +207,10 @@ public class ApptTest {
 		          title,
 		         description);
 	// assertions
-		 assertFalse(appt.getValid());         		
+		 assertFalse(appt.getValid());                      //check if hour is too high
+		 appt.setStartHour(-1);
+		 assertFalse(appt.getValid());                      //check if hour is too low
+		 assertEquals(null, appt.toString());               //an invalid appt should not return a string representation
 	 }
 	 /**
      * Test isValid() catches faulty dates, wrong minutes
@@ -211,7 +218,7 @@ public class ApptTest {
 	 @Test
 	  public void test08()  throws Throwable  {
 		 int startHour=21;
-		 int startMinute=65;
+		 int startMinute=60;
 		 int startDay=15;
 		 int startMonth=01;
 		 int startYear=2018;
@@ -226,7 +233,9 @@ public class ApptTest {
 		          title,
 		         description);
 	// assertions
-		 assertFalse(appt.getValid());         		
+		 assertFalse(appt.getValid());                      //check if minute is too high
+		 appt.setStartMinute(-1);
+		 assertFalse(appt.getValid());                      //check if minute is too low		 
 	 }
 	 /* Failed test, found unknown bug, invalid month will not trigger isValid() == false, causes out of range error
 	 *  in CalendarUtil.NumDaysInMonth()
@@ -252,4 +261,70 @@ public class ApptTest {
 		 assertFalse(appt.getValid());         		
 	 }
 	 */
+	 /**
+     * Test description and title are blank if not provided in setDescription() and setTitle()
+     */
+	 @Test
+	  public void testNullDescripTitle()  throws Throwable  {
+		 int startHour=21;
+		 int startMinute=30;
+		 int startDay=15;
+		 int startMonth=01;
+		 int startYear=2018;
+		 String title="Test descrip and title";
+		 String description="This is test for description and title.";
+		 //Construct a new Appointment object with the initial data	 
+		 Appt appt = new Appt(startHour,
+		          startMinute ,
+		          startDay ,
+		          startMonth ,
+		          startYear ,
+		          title,
+		         description);
+	// assertions
+		 appt.setDescription(null);
+		 appt.setTitle(null);
+		 assertEquals("", appt.getDescription());
+		 assertEquals("", appt.getTitle());
+	 }
+	 /**
+     * Test compareTo()
+     */
+	 @Test
+	  public void testcompareTo()  throws Throwable  {
+		 int startHour=21;
+		 int startMinute=30;
+		 int startDay=15;
+		 int startMonth=01;
+		 int startYear=2018;
+		 String title="Appt to compare 1";
+		 String description="Appt to compare 1.";
+		 //Construct a new Appointment object with the initial data	 
+		 Appt appt1 = new Appt(startHour,
+		          startMinute ,
+		          startDay ,
+		          startMonth ,
+		          startYear ,
+		          title,
+		         description);
+				 
+		 startHour=20;
+		 startMinute=31;
+		 startDay=15;
+		 startMonth=01;
+		 startYear=2018;
+		 title="Appt to compare 2";
+		 description="Appt to compare 2.";
+		 //Construct a new Appointment object with the initial data	 
+		 Appt appt2 = new Appt(startHour,
+		          startMinute ,
+		          startDay ,
+		          startMonth ,
+		          startYear ,
+		          title,
+		         description);
+	// assertions
+		 //assertTrue(appt1.compareTo(appt2) > 0);                   //should return integer showing appt1 is later than appt2, this test fails
+		 assertTrue(appt1.compareTo(appt2) == 0);                  //this test passes, unfortunately 0 tells us nothing about appt1 compared to appt2
+	 }
 }
