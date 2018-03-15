@@ -1,0 +1,9 @@
+Bug Report for Calendar
+
+1) Appt.isValid(), arguments being passed to CalendarUtil.NumDaysInMonth(year, month) are reversed.
+2) Appt.isValid(), argument for month being passed to CalnedarUtil.NumDaysInMonth needs to be decremented by 1.
+	Comparison to array in NumDaysInMonth throws indexoutofrange exception.
+3) Appt.toString(), all strings built are null. Logic for Appt.isValid() is reversed. Needs to return null if 
+	isValid() returns "not" true.
+4) Appt.represntationApp(), incorrect suffix reported for each time. Logic for appending suffix "am" and "pm" is reversed.
+	Changed to: (getStartHour() < 11) ? "am" : "pm".
