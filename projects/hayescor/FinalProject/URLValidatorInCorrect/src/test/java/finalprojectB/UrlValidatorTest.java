@@ -8,10 +8,6 @@ import java.util.Random;
 //It is an optional to use this file, you can generate your own test file(s) to test the target function!
 // Again, it is up to you to use this file or not!
 
-
-
-
-
 public class UrlValidatorTest extends TestCase {
 	private static final int NUM_TESTS=100;
 
@@ -115,7 +111,10 @@ public class UrlValidatorTest extends TestCase {
 				testURL.append((char)randomAscii);
 			}
 		
-			testURL.append(".com");
+			if(random.nextInt(2) == 1)
+			{
+				testURL.append(".com");
+			}
 		
 			if(hasPort == 1)
 			{
@@ -231,26 +230,39 @@ public class UrlValidatorTest extends TestCase {
 		}
    }
    
-   public void testYourFirstPartition()
-   {
-	 //You can use this function to implement your First Partition testing	   
-
-   }
+   //testValidURLs_w_port and testValidURLs_w_newPath both involve mutating known valid URLs with traits from
+   //known invalid URLs
+    public void testValidURLs_w_port()
+    {
+		//test valid URLs found via random testing, but add a port
+		UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+	    assertTrue(urlVal.isValid("http://0RpWKeMEP7il7qVZ/Mezdbwzel"));
+		assertFalse(urlVal.isValid("http://0RpWKeMEP7il7qVZ:80/Mezdbwzel"));
+		assertTrue(urlVal.isValid("http://tK8.com/HldmKsh"));
+		assertFalse(urlVal.isValid("http://tK8.com:237/HldmKsh"));
+		assertTrue(urlVal.isValid("http://wgSUqDGsVtZ1sINzWcIRNM/U?WKwWMRSGxN=LO#qkGykSw"));
+		assertFalse(urlVal.isValid("http://wgSUqDGsVtZ1sINzWcIRNM:1557/U?WKwWMRSGxN=LO#qkGykSw"));
+		assertTrue(urlVal.isValid("http://f1INAzIuw5yCFModKvQbS.com/Hc3ZAzx?f=rlm#n"));
+		assertFalse(urlVal.isValid("http://f1INAzIuw5yCFModKvQbS.com:12/Hc3ZAzx?f=rlm#n"));
+    }
    
-   public void testYourSecondPartition(){
-		 //You can use this function to implement your Second Partition testing	   
-
-   }
-   //You need to create more test cases for your Partitions if you need to 
-   
-   public void testIsValid()
-   {
-	   //You can use this function for programming based testing
-
-   }
+    public void testValidURLs_w_newPath()
+	{
+		//test valid URLs found via random testing, but replace the path with one from an invalid URL	  
+		//the invalid URL can't have a port, thought, because I already know that causes a problem
+		UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+		assertTrue(urlVal.isValid("http://KhBrjAGZJcBOBbaYVZ7OxcRT/dAQ?GPveOLh=5qJSw#s6Ihg5m6C"));
+		assertFalse(urlVal.isValid("http://KhBrjAGZJcBOBbaYVZ7OxcRT/nMnG3u/EQ"));
+		assertTrue(urlVal.isValid("http://IcAfpi5toghRSOy02lYLPuyKEKrP.com/oj"));
+		assertFalse(urlVal.isValid("http://IcAfpi5toghRSOy02lYLPuyKEKrP.com/V/S1TAA4b5fM/7G5wNM/XKfWdc?QIF3HVz=UFoYIDlS#VbcSQ"));
+		assertTrue(urlVal.isValid("http://eFIebMGl.com/dfpCz"));
+		assertFalse(urlVal.isValid("http://eFIebMGl.com/36mlxLt/ra-lWb6p/mUJNk?u1p=F6hNxbGf6S#SYwlHYkq1W"));
+		assertTrue(urlVal.isValid("http://XSAlEPRy6qmoi03t4-pm9vNp.com/NriHKv"));
+		assertFalse(urlVal.isValid("http://XSAlEPRy6qmoi03t4-pm9vNp.com/OU/LJ6o-a/goSp9l?fbGEG3=q#vMyxn4wP"));
+    }
    
 	public static void main(String[] argv) {
 
-	  UrlValidatorTest fct = new UrlValidatorTest("url test");
-   }
+		UrlValidatorTest fct = new UrlValidatorTest("url test");
+    }
 }
